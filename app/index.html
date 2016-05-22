@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Wangwurong">
+    <title>NodeChat</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <div class="banner">
+        <img src="img/mylogo.png"/>
+        <h1>NodeChat</h1>
+        <h2 id="status"></h2>
+    </div>
+    <div id="historyMsg"></div>
+    <div id="wrapper_chat">
+        <div><textarea id="input_msg" placeholder="请输入聊天内容"></textarea></div>
+        <div><a id="btn_send" class="btn">发送</a></div>
+    </div>
+    <div id="wrapper_login">
+        <h1 id="hint">connecting to server...</h1>
+        <div><input class="input_text" type="text" placeholder="请输入昵称" id="input_name"/></div>
+        <div><a id="btn_login" class="btn">进入聊天</a></div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>
