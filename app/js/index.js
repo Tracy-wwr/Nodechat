@@ -40,8 +40,13 @@ NodeChat.prototype = {
             var p = document.createElement('h2');
             p.textContent = msg;
             document.getElementById('historyMsg').appendChild(p);
+            //指定系统消息显示为红色
+            that._displayNewMsg('system ', msg, 'red');
             //将在线人数显示到页面顶部
             document.getElementById('status').textContent = userCount + (userCount > 1 ? ' users' : ' user') + ' online';
+        });
+        this.socket.on('newMsg', function(user, msg) {
+            that._displayNewMsg(user, msg);
         });
         //昵称设置的确定按钮
         document.getElementById('btn_login').addEventListener('click', function() {
@@ -55,5 +60,26 @@ NodeChat.prototype = {
                 document.getElementById('input_name').focus();
             };
         }, false);
+        //发送消息
+        document.getElementById('btn_send').addEventListener('click', function() {
+            var messageInput = document.getElementById('input_msg'),
+                msg = messageInput.value;
+            messageInput.value = '';
+            messageInput.focus();
+            if (msg.trim().length != 0) {
+                that.socket.emit('postMsg', msg); //把消息发送到服务器
+                that._displayNewMsg('me', msg); //把自己的消息显示到自己的窗口中
+            };
+        }, false);
+    },
+    //向原型添加业务方法
+    _displayNewMsg: function(user, msg, color) {
+        var container = document.getElementById('historyMsg'),
+            msgToDisplay = document.createElement('h2'),
+            date = new Date().toTimeString().substr(0, 8);
+        msgToDisplay.style.color = color || '#000';
+        msgToDisplay.innerHTML = user + '<span class="timespan">(' + date + '): </span>' + msg;
+        container.appendChild(msgToDisplay);
+        container.scrollTop = container.scrollHeight;
     }
 };

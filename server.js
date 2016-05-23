@@ -34,4 +34,9 @@ var express = require('express'),
             //通知除自己以外的所有人
             socket.broadcast.emit('system', socket.nickname, users.length, 'logout');
         });
+        //接受客户端发来的消息
+        socket.on('postMsg', function(msg) {
+            //将消息发送到除自己外的所有用户
+            socket.broadcast.emit('newMsg', socket.nickname, msg);
+        });
     });
